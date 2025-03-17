@@ -20,14 +20,14 @@ permissions:
   contents: read
 
 jobs:
-  tests on macos:
+  test-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: fish-actions/install-fish@v1
       - run: make test -C "$GITHUB_WORKSPACE"
 
-  tests on linux:
+  test-linux:
     runs-on: ubuntu-latest
     steps:
       - run: make dockertest -C "$GITHUB_WORKSPACE"
