@@ -1,11 +1,9 @@
 FROM debian:sid-slim
 
 RUN apt-get update \
-    && apt-get install -y -qq fish make sudo curl git \
-    && echo "%tide ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/tide" \
-    && chmod 0440 "/etc/sudoers.d/tide" \
+    && apt-get install -y -qq fish make curl git \
     && groupadd --gid 1000 tide \
-    && useradd --create-home --gid 1000 --shell /usr/bin/fish --system --uid 1000 tide \
+    && useradd --create-home --gid 1000 --shell /usr/bin/fish --uid 1000 tide \
     && mkdir --parents "/home/tide/{src/tide,.config/fish/conf.d}" \
     && chown --recursive tide:tide "/home/tide"
 
