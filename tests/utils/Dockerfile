@@ -11,6 +11,7 @@ RUN apt-get update \
 
 COPY --link --chown=1000:1000 . /home/tide/src/tide
 
+HEALTHCHECK NONE
 WORKDIR /home/tide/src/tide
 USER tide
 ENTRYPOINT ["/usr/bin/fish", "--login"]
