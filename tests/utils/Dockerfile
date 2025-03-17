@@ -7,7 +7,7 @@ RUN apt-get update \
     && groupadd --gid 1000 tide \
     && useradd --create-home --gid 1000 --shell /usr/bin/fish --uid 1000 tide \
     && mkdir --parents "/home/tide/{src/tide,.config/fish/conf.d}" \
-    && chown --recursive tide:tide "/home/tide"
+    && chown --recursive tide:tide "/home/tide" # hadolint ignore=DL3008
 
 COPY --link --chown=1000:1000 . /home/tide/src/tide
 
