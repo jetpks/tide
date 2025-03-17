@@ -30,6 +30,7 @@ jobs:
   test-linux:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: make dockertest -C "$GITHUB_WORKSPACE"
 
   syntax-check:
