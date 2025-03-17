@@ -8,6 +8,9 @@ on:
     tags-ignore:
       - v.*
   pull_request:
+    types:
+      - opened
+      - reopened
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,15 +20,17 @@ permissions:
   contents: read
 
 jobs:
-  tests:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest]
+  tests on macos:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: fish-actions/install-fish@v1
       - run: make test -C "$GITHUB_WORKSPACE"
+
+  tests on linux:
+    runs-on: ubuntu-latest
+    steps:
+      - run: make dockertest -C "$GITHUB_WORKSPACE"
 
   syntax-check:
     runs-on: ubuntu-latest
