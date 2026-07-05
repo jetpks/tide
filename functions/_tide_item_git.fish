@@ -1,10 +1,18 @@
 function _tide_item_git
-    if git branch --show-current 2>/dev/null | string shorten -"$tide_git_truncation_strategy"m$tide_git_truncation_length | read -l location
+    # Assemble the truncation flags as a list rather than concatenating the
+    # strategy into the flag token. Only honor a strategy that is a single
+    # letter, so a stray value (e.g. a legacy universal variable that decodes
+    # to a control char under newer fish) can't corrupt the `-m` option.
+    set -l _trunc -m$tide_git_truncation_length
+    string match -qr '^[a-z]$' -- "$tide_git_truncation_strategy"
+    and set _trunc -$tide_git_truncation_strategy $_trunc
+
+    if git branch --show-current 2>/dev/null | string shorten $_trunc | read -l location
         git rev-parse --git-dir --is-inside-git-dir | read -fL gdir in_gdir
         set location $_tide_location_color$location
     else if test $pipestatus[1] != 0
         return
-    else if git tag --points-at HEAD | string shorten -"$tide_git_truncation_strategy"m$tide_git_truncation_length | read location
+    else if git tag --points-at HEAD | string shorten $_trunc | read location
         git rev-parse --git-dir --is-inside-git-dir | read -fL gdir in_gdir
         set location '#'$_tide_location_color$location
     else
