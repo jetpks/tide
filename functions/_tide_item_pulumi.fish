@@ -13,7 +13,7 @@ function _tide_item_pulumi
 
         if test -e $workspace_file
             string match -qr '"stack": *"(?<stack>.*)"' <$workspace_file
-            _tide_print_item pulumi $tide_pulumi_icon' ' $stack
+            _tide_print_item pulumi (_tide_icon $tide_pulumi_icon) $stack
         end
     end
 end
